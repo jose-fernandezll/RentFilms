@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservas</title>
+  <link href="./css/reportes.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+  <header class="navbar">
+    <nav>
+      <ul class="nav-links">
+        <li class="rent-films">
+          <img class="logo-img" src="./imagenes/logo.svg" alt="logo">
+          <a class="title-a">RentFilms</a>
+        </li>
+        <li><a href="./index.html">Inicio</a></li>
+      </ul>
+      <button class="menu-toggle" aria-label="Abrir menú">&#9776;</button>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>Reservas</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Edad</th>
+          <th>Dirección</th>
+          <th>Sexo</th>
+          <th>Películas</th>
+        </tr>
+      </thead>
+      <tbody id="reservas-table">
+        <!-- Aquí se ven lo datos obtenidos de la consulta -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- obtiene las reservas almacenadas en la bd -->
+  <script>
+    fetch('./obtener_reservas.php')
+      .then(response => response.json())
+      .then(data => {
+        const tableBody = document.getElementById('reservas-table');
+        data.forEach(reserva => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+                        <td>${reserva.id}</td>
+                        <td>${reserva.nombre}</td>
+                        <td>${reserva.edad}</td>
+                        <td>${reserva.direccion}</td>
+                        <td>${reserva.sexo}</td>
+                        <td>${reserva.peliculas}</td>
+                    `;
+          tableBody.appendChild(row);
+        });
+      })
+      .catch(error => console.error('Error:', error));
+  </script>
+</body>
+
+</html>
